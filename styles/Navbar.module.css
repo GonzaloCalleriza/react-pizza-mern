@@ -7,6 +7,7 @@
     justify-content: space-between;
     position: sticky; /* Navbar se quedará siempre en el mismo lugar */
     top: 0;
+    z-index: 999;
 }
 
 .item {
