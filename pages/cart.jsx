@@ -64,8 +64,9 @@ const Cart = () => {
                         });
                 }}
                 onApprove={function (data, actions) {
-                    return actions.order.capture().then(function () {
+                    return actions.order.capture().then(function (details) {
                         // Your code here after capture the order
+                        console.log(details)
                     });
                 }}
             />
@@ -77,49 +78,51 @@ const Cart = () => {
     <div className={styles.container}>
       <div className={styles.left}>
         <table className={styles.table}>
-          <tr className={styles.trTitle}>
-            <th>Product</th>
-            <th>Name</th>
-            <th>Extras</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-          </tr>
-          {cart.product.map((product) =>  (
-
-            <tr className={styles.tr} key={product._id}>
-              <td>
-                <div className={styles.imgContainer}>
-                  <Image
-                    src={product.img}
-                    layout="fill"
-                    objectFit="cover"
-                    alt=""
-                  />
-                </div>
-              </td>
-              <td>
-                <span className={styles.name}>{product.title}</span>
-              </td>
-              <td>
-                <span className={styles.extras}>
-                  {product.extras.map(extra => (
-                    <span key={extra._id}>{extra.text}</span>
-                  ))}
-                </span>
-              </td>
-              <td>
-                <span className={styles.price}>${product.price}</span>
-              </td>
-              <td>
-                <span className={styles.quantity}>{product.quantity}</span>
-              </td>
-              <td>
-                <span className={styles.total}>{product.price * product.quantity}</span>
-              </td>
+          <tbody>
+            <tr className={styles.trTitle}>
+              <th>Product</th>
+              <th>Name</th>
+              <th>Extras</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
             </tr>
-
-          ))}
+          </tbody>
+          <tbody>
+            {cart.product.map((product) =>  (
+              <tr className={styles.tr} key={product._id}>
+                <td>
+                  <div className={styles.imgContainer}>
+                    <Image
+                      src={product.img}
+                      layout="fill"
+                      objectFit="cover"
+                      alt=""
+                    />
+                  </div>
+                </td>
+                <td>
+                  <span className={styles.name}>{product.title}</span>
+                </td>
+                <td>
+                  <span className={styles.extras}>
+                    {product.extras.map(extra => (
+                      <span key={extra._id}>{extra.text}</span>
+                    ))}
+                  </span>
+                </td>
+                <td>
+                  <span className={styles.price}>${product.price}</span>
+                </td>
+                <td>
+                  <span className={styles.quantity}>{product.quantity}</span>
+                </td>
+                <td>
+                  <span className={styles.total}>{product.price * product.quantity}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
       <div className={styles.right}>
@@ -139,7 +142,7 @@ const Cart = () => {
               <button className={styles.payButton}>CASH ON DELIVERY</button>
               <PayPalScriptProvider
                     options={{
-                        "client-id": "test",
+                        "client-id": process.env.REACT_PAYPAL_CLIENT_ID,
                         components: "buttons",
                         currency: "USD",
                         "disable-funding": "credit,card,p24"
